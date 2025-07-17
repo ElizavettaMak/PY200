@@ -17,21 +17,21 @@ class Book:
         self.id_ = id_
         self.name = name
         self.pages = pages
-        #pass
+        pass
 
     def __str__(self):
         return f'Книга "{self.name}"'
-        #pass
+    pass
 
     def __repr__(self):
-        return f"{self.__class__.__name__}(id_={self.id_}, name='{self.name}', pages={self.pages})"
-        #pass
+        return f"Book(id_={self.id_!r}, name={self.name!r}, pages={self.pages!r})"
+    pass
 
 
 
 class Library:
 
-    def __init__(self, books: list|None = None):
+    def __init__(self, books: list[Book]|None = None):
         """
         Не забудьте про 'Конструктор должен принимать необязательный аргумент со значением по умолчанию. Если пользователь
         его не передал, то библиотека инициализируется с пустым списком книг.'
@@ -49,8 +49,13 @@ class Library:
         значение после этого `id`
         :return:
         """
-        return len(self.books) + 1
-        #pass # TODO дописать метод
+        if not self.books:
+            return 1
+        sorted_book = sorted(self.books, key=lambda book: book.id_, reverse=True)
+        last_book = sorted_book[-1]
+        next_id = last_book.id_ + 2
+        return next_id
+
 
     def get_index_by_book_id(self, id_):
         """
@@ -60,9 +65,10 @@ class Library:
         :param id_: id книги
         :return: индекс, где лежит книга в списке книг
         """
-        for index, value in enumerate(self.books):
-            #if value["id"] == id_:
+        for index, book in enumerate(self.books):
+            if book.id_ == id_:
                 return index
+            return index
 
         #pass # TODO дописать метод
 
